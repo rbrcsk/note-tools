@@ -35,7 +35,7 @@ const attachDownloadListener = (page: Page, outDir?: string) => {
 };
 
 export const getInitialPage = async (headless: boolean, outDir?: string) => {
-  const browser = await playwright.firefox.launch({ headless });
+  const browser = await playwright.chromium.launch({ headless });
   const page = await browser.newPage({ acceptDownloads: true });
 
   console.log(`Visiting ${ROAM_LOGIN_URL}`);
@@ -136,7 +136,7 @@ export const exportAll = async (page: Page, format: string) => {
 export const sleep = async (seconds: number) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve();
+      resolve(undefined);
     }, seconds * 1000);
   });
 };
@@ -213,7 +213,7 @@ export const formatJsonExport = (graphName: string, outDir?: string) => {
 
   const jsonFile = fs.readFileSync(fileLocation, "utf8");
 
-  const formatted = prettier.format(jsonFile, {parser: "json"});
+  const formatted = prettier.format(jsonFile, { parser: "json" });
 
   fs.writeFileSync(fileLocation, formatted);
 };
